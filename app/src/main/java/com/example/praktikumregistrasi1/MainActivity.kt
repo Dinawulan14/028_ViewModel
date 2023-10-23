@@ -61,7 +61,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun TampilLayout(
     modifier: Modifier = Modifier
@@ -86,6 +85,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
 
     var textNama by remember { mutableStateOf("") }
     var textTlp by remember { mutableStateOf("") }
+    var textalmt by remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val dataForm: DataForm
@@ -113,13 +113,23 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
             textTlp = it
         }
     )
+    OutlinedTextField(
+        value = textalmt,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Alamat") },
+        onValueChange = {
+            textalmt = it
+        }
+    )
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectionChanged = { cobaViewModel.setJenis(it) })
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama, textTlp, dataForm.sex)
+            cobaViewModel.insertData(textNama, textTlp, textalmt, dataForm.sex)
         }
     ) {
         Text(
