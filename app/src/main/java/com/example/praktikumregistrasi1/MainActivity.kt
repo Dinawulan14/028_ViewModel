@@ -7,8 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
@@ -69,7 +71,8 @@ fun TampilLayout(
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-    ) {
+    )
+    {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,7 +81,7 @@ fun TampilLayout(
             Text(
                 text = "Create Your Account",
                 fontSize = 30.sp,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(15.dp)
             )
             TampilForm()
         }
@@ -89,10 +92,11 @@ fun TampilLayout(
 @Composable
 fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
 
-    var textregister by remember { mutableStateOf("") }
     var textNama by remember { mutableStateOf("") }
     var textTlp by remember { mutableStateOf("") }
     var textalmt by remember { mutableStateOf("") }
+    var textemail by remember { mutableStateOf("")
+    }
 
     val context = LocalContext.current
     val dataForm: DataForm
@@ -118,6 +122,16 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
         label = { Text(text = "Telpon") },
         onValueChange = {
             textTlp = it
+        }
+    )
+    OutlinedTextField(
+        value = textemail,
+        singleLine = true,
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Email") },
+        onValueChange = {
+            textemail = it
         }
     )
     OutlinedTextField(
@@ -148,6 +162,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
             fontSize = 16.sp
         )
     }
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Composable
