@@ -2,5 +2,7 @@
     <string name="app_name">PraktikumRegistrasi1</string>
     <string name="laki">Laki-Laki</string>
     <string name="wanita">Wanita</string>
+    <string name="belummenikah">BelumMenikah</string>
+    <string name="menikah">Menikah</string>
     <string name="submit">submit</string>
 </resources>

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.praktikumregistrasi1.Data.DataForm
 import com.example.praktikumregistrasi1.Data.DataSource.jenis
+import com.example.praktikumregistrasi1.Data.DataSource.status
 import com.example.praktikumregistrasi1.ui.theme.PraktikumRegistrasi1Theme
 import org.w3c.dom.Text
 
@@ -74,6 +75,11 @@ fun TampilLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(20.dp)
         ) {
+            Text(
+                text = "Create Your Account",
+                fontSize = 30.sp,
+                modifier = Modifier.padding(16.dp)
+            )
             TampilForm()
         }
     }
@@ -83,6 +89,7 @@ fun TampilLayout(
 @Composable
 fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
 
+    var textregister by remember { mutableStateOf("") }
     var textNama by remember { mutableStateOf("") }
     var textTlp by remember { mutableStateOf("") }
     var textalmt by remember { mutableStateOf("") }
@@ -125,7 +132,11 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
     )
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
-        onSelectionChanged = { cobaViewModel.setJenis(it) })
+        onSelectionChanged = { cobaViewModel.setJenis(it) }
+    )
+    SelectStatus(options = status.map { id -> context.resources.getString(id) },
+        onSelectionChanged = { cobaViewModel.setStatus(it) }
+    )
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -173,7 +184,40 @@ fun SelectJK(
 }
 
 @Composable
-fun TextHasil(namanya: String, telponnya: String, jenisnya: String) {
+fun SelectStatus(
+    options: List<String>,
+    onSelectionChanged: (String) -> Unit = {}
+) {
+    var selectedValue by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        options.forEach { item ->
+            Row(
+                modifier = Modifier.selectable(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectionChanged(item)
+                    }
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectionChanged(item)
+                    }
+                )
+                Text(item)
+            }
+        }
+    }
+}
+@Composable
+fun TextHasil (namanya: String, telponnya: String, alamatnya: String, jenisnya: String) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -192,7 +236,7 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String) {
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
         Text(
-            text = "Telepon : " + telponnya,
+            text = "Alamat : " + alamatnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
